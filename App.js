@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Switch, ScrollView, Image } from 'react-native';
 
 export default function HomeAutomationApp() {
-  // Estados para os dispositivos
   const [livingRoomLight, setLivingRoomLight] = useState(false);
   const [kitchenLight, setKitchenLight] = useState(false);
   const [bedroomLight, setBedroomLight] = useState(false);
@@ -11,7 +10,6 @@ export default function HomeAutomationApp() {
   const [securityActive, setSecurityActive] = useState(false);
   const [selectedScenario, setSelectedScenario] = useState(null);
 
-  // Cenários pré-definidos
   const scenarios = {
     morning: {
       name: 'Manhã',
@@ -57,7 +55,6 @@ export default function HomeAutomationApp() {
         <Text style={styles.subtitle}>Bem-vindo de volta!</Text>
       </View>
 
-      {/* Seção de Iluminação */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Iluminação</Text>
         
@@ -86,7 +83,6 @@ export default function HomeAutomationApp() {
         </View>
       </View>
 
-      {/* Seção de Climatização */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Climatização</Text>
         
@@ -119,7 +115,6 @@ export default function HomeAutomationApp() {
         )}
       </View>
 
-      {/* Seção de Segurança */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Segurança</Text>
         
@@ -146,7 +141,6 @@ export default function HomeAutomationApp() {
         </View>
       </View>
 
-      {/* Seção de Cenários */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Cenários</Text>
         
