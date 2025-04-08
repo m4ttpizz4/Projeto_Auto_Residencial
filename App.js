@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Switch, ScrollView, Image } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Switch,
+  ScrollView,
+} from 'react-native';
 
 export default function HomeAutomationApp() {
+  // Estados para os dispositivos
   const [livingRoomLight, setLivingRoomLight] = useState(false);
   const [kitchenLight, setKitchenLight] = useState(false);
   const [bedroomLight, setBedroomLight] = useState(false);
@@ -10,6 +18,7 @@ export default function HomeAutomationApp() {
   const [securityActive, setSecurityActive] = useState(false);
   const [selectedScenario, setSelectedScenario] = useState(null);
 
+  // Cenários pré-definidos
   const scenarios = {
     morning: {
       name: 'Manhã',
@@ -19,7 +28,7 @@ export default function HomeAutomationApp() {
         setBedroomLight(false);
         setAcOn(false);
         setSecurityActive(false);
-      }
+      },
     },
     night: {
       name: 'Noite',
@@ -30,7 +39,7 @@ export default function HomeAutomationApp() {
         setAcOn(true);
         setTemperature(24);
         setSecurityActive(true);
-      }
+      },
     },
     away: {
       name: 'Fora de casa',
@@ -40,8 +49,8 @@ export default function HomeAutomationApp() {
         setBedroomLight(false);
         setAcOn(false);
         setSecurityActive(true);
-      }
-    }
+      },
+    },
   };
 
   const toggleSecurity = () => {
@@ -55,59 +64,47 @@ export default function HomeAutomationApp() {
         <Text style={styles.subtitle}>Bem-vindo de volta!</Text>
       </View>
 
+      {/* Seção de Iluminação */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Iluminação</Text>
-        
+
         <View style={styles.deviceRow}>
           <Text>Sala de Estar</Text>
-          <Switch
-            value={livingRoomLight}
-            onValueChange={setLivingRoomLight}
-          />
+          <Switch value={livingRoomLight} onValueChange={setLivingRoomLight} />
         </View>
-        
+
         <View style={styles.deviceRow}>
           <Text>Cozinha</Text>
-          <Switch
-            value={kitchenLight}
-            onValueChange={setKitchenLight}
-          />
+          <Switch value={kitchenLight} onValueChange={setKitchenLight} />
         </View>
-        
+
         <View style={styles.deviceRow}>
           <Text>Quarto</Text>
-          <Switch
-            value={bedroomLight}
-            onValueChange={setBedroomLight}
-          />
+          <Switch value={bedroomLight} onValueChange={setBedroomLight} />
         </View>
       </View>
 
+      {/* Seção de Climatização */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Climatização</Text>
-        
+
         <View style={styles.deviceRow}>
           <Text>Ar Condicionado</Text>
-          <Switch
-            value={acOn}
-            onValueChange={setAcOn}
-          />
+          <Switch value={acOn} onValueChange={setAcOn} />
         </View>
-        
+
         {acOn && (
           <View style={styles.temperatureControl}>
             <Text>Temperatura: {temperature}°C</Text>
             <View style={styles.temperatureButtons}>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.tempButton}
-                onPress={() => setTemperature(t => Math.min(30, t + 1))}
-              >
+                onPress={() => setTemperature((t) => Math.min(30, t + 1))}>
                 <Text>+</Text>
               </TouchableOpacity>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.tempButton}
-                onPress={() => setTemperature(t => Math.max(16, t - 1))}
-              >
+                onPress={() => setTemperature((t) => Math.max(16, t - 1))}>
                 <Text>-</Text>
               </TouchableOpacity>
             </View>
@@ -115,48 +112,41 @@ export default function HomeAutomationApp() {
         )}
       </View>
 
+      {/* Seção de Segurança */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Segurança</Text>
-        
-        <TouchableOpacity 
+        <Text style={styles.sectionTitle}>Fechaduras</Text>
+
+        <TouchableOpacity
           style={[
             styles.securityButton,
-            securityActive ? styles.securityActive : styles.securityInactive
+            securityActive ? styles.securityActive : styles.securityInactive,
           ]}
-          onPress={toggleSecurity}
-        >
+          onPress={toggleSecurity}>
           <Text style={styles.securityButtonText}>
-            {securityActive ? 'Sistema Ativo' : 'Sistema Inativo'}
+            {securityActive ? 'Trancadas' : 'Destrancadas'}
           </Text>
           <Text style={styles.securityButtonSubtext}>
-            {securityActive ? 'Toque para desativar' : 'Toque para ativar'}
+            {securityActive ? 'Toque para destrancar' : 'Toque para trancar'}
           </Text>
         </TouchableOpacity>
-        
-        <View style={styles.cameraPreview}>
-          <Image 
-            source={{uri: 'https://placehold.co/600x400?text=Câmera+de+Segurança'}} 
-            style={styles.cameraImage}
-          />
-        </View>
       </View>
 
+      {/* Seção de Cenários */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Cenários</Text>
-        
+
         <View style={styles.scenarioButtons}>
-          {Object.keys(scenarios).map(key => (
-            <TouchableOpacity 
+          {Object.keys(scenarios).map((key) => (
+            <TouchableOpacity
               key={key}
               style={[
                 styles.scenarioButton,
-                selectedScenario === key && styles.scenarioButtonActive
+                selectedScenario === key && styles.scenarioButtonActive,
               ]}
               onPress={() => {
                 scenarios[key].actions();
                 setSelectedScenario(key);
-              }}
-            >
+              }}>
               <Text>{scenarios[key].name}</Text>
             </TouchableOpacity>
           ))}
@@ -248,15 +238,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 12,
     opacity: 0.8,
-  },
-  cameraPreview: {
-    height: 200,
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  cameraImage: {
-    width: '100%',
-    height: '100%',
   },
   scenarioButtons: {
     flexDirection: 'row',
