@@ -1,5 +1,24 @@
-# Projeto_Auto_Residencial
-### Software de automatização residencial para suprir a disciplina de Programação para dispositivos móveis em android e a integração com o arduíno para a disciplina de Programação de microcontroladores.
+# 🏠 Projeto_Auto_Residencial
+Software de automatização residencial para suprir a disciplina de Programação para dispositivos móveis em android e a integração com o arduíno para a disciplina de Programação de microcontroladores.
 
-### Baixe o aplicativo Expo GO e scaneie o QR Code para conferir nosso protótipo:
-![image](https://github.com/user-attachments/assets/67a40b7f-7174-44cd-93a1-9a9d0c1e5fc4)
+## 👥 Colaboradores:
+  <table>
+    <tr>
+      <td align="center">
+      <a href="#" title="Foto de Mateus">
+        <img src="https://avatars.githubusercontent.com/u/100164090?v=4" width="100px;" alt="Foto de Mateus"/><br>
+        <sub>
+          <b>Mateus</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#" title="Foto de Aldemir Anderson">
+        <img src="https://avatars.githubusercontent.com/u/111025057?v=4" width="100px;" alt="Foto de Aldemir Anderson"/><br>
+        <sub>
+          <b>Aldemir Anderson</b>
+        </sub>
+      </a>
+    </td>
+    </tr>
+  </table>
