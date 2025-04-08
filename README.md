@@ -20,6 +20,15 @@ Software de automatização residencial para suprir a disciplina de Programaçã
         </sub>
       </a>
     </td>
+    </td>
+    <td align="center">
+      <a href="#" title="Foto de Bruno Ferreira">
+        <img src="https://avatars.githubusercontent.com/u/146492550?v=4" width="100px;" alt="Foto de Bruno Ferreira"/><br>
+        <sub>
+          <b>Bruno Ferreira/b>
+        </sub>
+      </a>
+    </td>
     </tr>
   </table>
 
