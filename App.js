@@ -16,197 +16,197 @@ import {
   SafeAreaView
 } from 'react-native';
 
-const HomeAutomationApp = () => {
-  const colorScheme = useColorScheme();
-  const [isDarkMode, setIsDarkMode] = useState(colorScheme === 'dark');
-  const [splashVisible, setSplashVisible] = useState(true);
-  const [livingRoomLight, setLivingRoomLight] = useState(false);
-  const [kitchenLight, setKitchenLight] = useState(false);
-  const [bedroomLight, setBedroomLight] = useState(false);
-  const [acOn, setAcOn] = useState(false);
-  const [temperature, setTemperature] = useState(22);
-  const [securityActive, setSecurityActive] = useState(false);
-  const [selectedScenario, setSelectedScenario] = useState(null);
-  const [customScenarios, setCustomScenarios] = useState({});
-  const [modalVisible, setModalVisible] = useState(false);
-  const [newScenarioName, setNewScenarioName] = useState('');
-  const [newScenarioSettings, setNewScenarioSettings] = useState({
-    livingRoomLight: false,
-    kitchenLight: false,
-    bedroomLight: false,
-    acOn: false,
-    temperature: 22,
-    securityActive: false,
+const AppCasaInteligente = () => {
+  const esquemaDeCores = useColorScheme();
+  const [modoEscuro, setModoEscuro] = useState(esquemaDeCores === 'dark');
+  const [telaSplashVisivel, setTelaSplashVisivel] = useState(true);
+  const [luzSala, setLuzSala] = useState(false);
+  const [luzCozinha, setLuzCozinha] = useState(false);
+  const [luzQuarto, setLuzQuarto] = useState(false);
+  const [arCondicionadoLigado, setArCondicionadoLigado] = useState(false);
+  const [temperatura, setTemperatura] = useState(22);
+  const [segurancaAtiva, setSegurancaAtiva] = useState(false);
+  const [cenarioSelecionado, setCenarioSelecionado] = useState(null);
+  const [cenariosPersonalizados, setCenariosPersonalizados] = useState({});
+  const [modalVisivel, setModalVisivel] = useState(false);
+  const [nomeNovoCenario, setNomeNovoCenario] = useState('');
+  const [configuracoesNovoCenario, setConfiguracoesNovoCenario] = useState({
+    luzSala: false,
+    luzCozinha: false,
+    luzQuarto: false,
+    arCondicionadoLigado: false,
+    temperatura: 22,
+    segurancaAtiva: false,
   });
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setSplashVisible(false);
+      setTelaSplashVisivel(false);
     }, 3000);
     return () => clearTimeout(timer);
   }, []);
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+  const alternarModoEscuro = (modo) => {
+    setModoEscuro(modo);
   };
 
-  const predefinedScenarios = {
-    morning: {
-      name: 'Manhã',
-      actions: () => {
-        setLivingRoomLight(true);
-        setKitchenLight(true);
-        setBedroomLight(false);
-        setAcOn(false);
-        setSecurityActive(false);
-        setSelectedScenario('morning');
+  const cenariosPredefinidos = {
+    manha: {
+      nome: 'Manhã',
+      acoes: () => {
+        setLuzSala(true);
+        setLuzCozinha(true);
+        setLuzQuarto(false);
+        setArCondicionadoLigado(false);
+        setSegurancaAtiva(false);
+        setCenarioSelecionado('manha');
       },
     },
-    night: {
-      name: 'Noite',
-      actions: () => {
-        setLivingRoomLight(true);
-        setKitchenLight(false);
-        setBedroomLight(true);
-        setAcOn(true);
-        setTemperature(24);
-        setSecurityActive(true);
-        setSelectedScenario('night');
+    noite: {
+      nome: 'Noite',
+      acoes: () => {
+        setLuzSala(true);
+        setLuzCozinha(false);
+        setLuzQuarto(true);
+        setArCondicionadoLigado(true);
+        setTemperatura(24);
+        setSegurancaAtiva(true);
+        setCenarioSelecionado('noite');
       },
     },
-    away: {
-      name: 'Fora de casa',
-      actions: () => {
-        setLivingRoomLight(false);
-        setKitchenLight(false);
-        setBedroomLight(false);
-        setAcOn(false);
-        setSecurityActive(true);
-        setSelectedScenario('away');
+    fora: {
+      nome: 'Fora de casa',
+      acoes: () => {
+        setLuzSala(false);
+        setLuzCozinha(false);
+        setLuzQuarto(false);
+        setArCondicionadoLigado(false);
+        setSegurancaAtiva(true);
+        setCenarioSelecionado('fora');
       },
     },
   };
 
-  const toggleSecurity = () => {
-    setSecurityActive(!securityActive);
+  const alternarSeguranca = () => {
+    setSegurancaAtiva(!segurancaAtiva);
   };
 
-  const openNewScenarioModal = () => {
-    setNewScenarioSettings({
-      livingRoomLight,
-      kitchenLight,
-      bedroomLight,
-      acOn,
-      temperature,
-      securityActive,
+  const abrirModalNovoCenario = () => {
+    setConfiguracoesNovoCenario({
+      luzSala,
+      luzCozinha,
+      luzQuarto,
+      arCondicionadoLigado,
+      temperatura,
+      segurancaAtiva,
     });
-    setModalVisible(true);
+    setModalVisivel(true);
   };
 
-  const saveCustomScenario = () => {
-    if (!newScenarioName.trim()) return;
+  const salvarCenarioPersonalizado = () => {
+    if (!nomeNovoCenario.trim()) return;
     
-    const scenarioKey = `custom_${Date.now()}`;
+    const chaveCenario = `personalizado_${Date.now()}`;
     
-    const newScenario = {
-      name: newScenarioName,
-      actions: () => {
-        setLivingRoomLight(newScenarioSettings.livingRoomLight);
-        setKitchenLight(newScenarioSettings.kitchenLight);
-        setBedroomLight(newScenarioSettings.bedroomLight);
-        setAcOn(newScenarioSettings.acOn);
-        setTemperature(newScenarioSettings.temperature);
-        setSecurityActive(newScenarioSettings.securityActive);
-        setSelectedScenario(scenarioKey);
+    const novoCenario = {
+      nome: nomeNovoCenario,
+      acoes: () => {
+        setLuzSala(configuracoesNovoCenario.luzSala);
+        setLuzCozinha(configuracoesNovoCenario.luzCozinha);
+        setLuzQuarto(configuracoesNovoCenario.luzQuarto);
+        setArCondicionadoLigado(configuracoesNovoCenario.arCondicionadoLigado);
+        setTemperatura(configuracoesNovoCenario.temperatura);
+        setSegurancaAtiva(configuracoesNovoCenario.segurancaAtiva);
+        setCenarioSelecionado(chaveCenario);
       },
     };
     
-    setCustomScenarios(prev => ({
+    setCenariosPersonalizados(prev => ({
       ...prev,
-      [scenarioKey]: newScenario
+      [chaveCenario]: novoCenario
     }));
     
-    setNewScenarioName('');
-    setModalVisible(false);
+    setNomeNovoCenario('');
+    setModalVisivel(false);
   };
 
-  const deleteCustomScenario = (key) => {
-    const newScenarios = {...customScenarios};
-    delete newScenarios[key];
-    setCustomScenarios(newScenarios);
-    if (selectedScenario === key) {
-      setSelectedScenario(null);
+  const excluirCenarioPersonalizado = (chave) => {
+    const novosCenarios = {...cenariosPersonalizados};
+    delete novosCenarios[chave];
+    setCenariosPersonalizados(novosCenarios);
+    if (cenarioSelecionado === chave) {
+      setCenarioSelecionado(null);
     }
   };
 
-  const dynamicStyles = StyleSheet.create({
+  const estilosDinamicos = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: isDarkMode ? '#121212' : '#f5f5f5',
+      backgroundColor: modoEscuro ? '#121212' : '#f5f5f5',
       paddingTop: StatusBar.currentHeight,
     },
-    header: {
+    cabecalho: {
       marginBottom: 24,
       paddingHorizontal: 16,
       paddingTop: 16,
     },
-    title: {
+    titulo: {
       fontSize: 28,
       fontWeight: 'bold',
-      color: isDarkMode ? '#fff' : '#333',
+      color: modoEscuro ? '#fff' : '#333',
     },
-    subtitle: {
+    subtitulo: {
       fontSize: 16,
-      color: isDarkMode ? '#aaa' : '#666',
+      color: modoEscuro ? '#aaa' : '#666',
     },
-    section: {
-      backgroundColor: isDarkMode ? '#1e1e1e' : 'white',
+    secao: {
+      backgroundColor: modoEscuro ? '#1e1e1e' : 'white',
       borderRadius: 12,
       padding: 16,
       marginBottom: 16,
       marginHorizontal: 16,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: isDarkMode ? 0 : 0.1,
+      shadowOpacity: modoEscuro ? 0 : 0.1,
       shadowRadius: 4,
       elevation: 2,
     },
-    sectionTitle: {
+    tituloSecao: {
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 12,
-      color: isDarkMode ? '#fff' : '#444',
+      color: modoEscuro ? '#fff' : '#444',
     },
-    subsectionTitle: {
+    tituloSubsecao: {
       fontSize: 16,
       fontWeight: '600',
       marginVertical: 8,
-      color: isDarkMode ? '#ccc' : '#555',
+      color: modoEscuro ? '#ccc' : '#555',
     },
-    deviceRow: {
+    linhaDispositivo: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
       paddingVertical: 10,
       borderBottomWidth: 1,
-      borderBottomColor: isDarkMode ? '#333' : '#eee',
+      borderBottomColor: modoEscuro ? '#333' : '#eee',
     },
-    text: {
-      color: isDarkMode ? '#fff' : '#000',
+    texto: {
+      color: modoEscuro ? '#fff' : '#000',
     },
-    scenarioButton: {
+    botaoCenario: {
       padding: 12,
       borderRadius: 8,
-      backgroundColor: isDarkMode ? '#333' : '#eee',
+      backgroundColor: modoEscuro ? '#333' : '#eee',
       flex: 1,
       margin: 4,
       alignItems: 'center',
       minWidth: '30%',
     },
-    scenarioButtonActive: {
+    botaoCenarioAtivo: {
       backgroundColor: '#2196F3',
     },
-    addScenarioButton: {
+    botaoAdicionarCenario: {
       marginTop: 12,
       padding: 12,
       borderRadius: 8,
@@ -214,28 +214,42 @@ const HomeAutomationApp = () => {
       alignItems: 'center',
       marginHorizontal: 16,
     },
-    input: {
+    entrada: {
       borderWidth: 1,
-      borderColor: isDarkMode ? '#333' : '#ddd',
+      borderColor: modoEscuro ? '#333' : '#ddd',
       borderRadius: 6,
       padding: 10,
       marginBottom: 20,
-      color: isDarkMode ? '#fff' : '#000',
-      backgroundColor: isDarkMode ? '#333' : '#fff',
+      color: modoEscuro ? '#fff' : '#000',
+      backgroundColor: modoEscuro ? '#333' : '#fff',
     },
-    settingRow: {
+    linhaConfiguracao: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
       paddingVertical: 10,
       borderBottomWidth: 1,
-      borderBottomColor: isDarkMode ? '#333' : '#eee',
+      borderBottomColor: modoEscuro ? '#333' : '#eee',
+    },
+    botaoModo: {
+      padding: 8,
+      borderRadius: 20,
+      marginHorizontal: 4,
+      borderWidth: 1,
+      borderColor: modoEscuro ? '#444' : '#ddd',
+    },
+    botaoModoAtivo: {
+      backgroundColor: '#2196F3',
+      borderColor: '#2196F3',
+    },
+    textoBotaoModo: {
+      fontSize: 20,
     },
   });
 
-  if (splashVisible) {
+  if (telaSplashVisivel) {
     return (
-      <View style={[dynamicStyles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+      <View style={[estilosDinamicos.container, { justifyContent: 'center', alignItems: 'center' }]}>
         <Image source={require('./logo.png')} style={{ width: 150, height: 150, marginBottom: 20 }} />
         <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'white' }}>Casa Inteligente</Text>
       </View>
@@ -243,127 +257,145 @@ const HomeAutomationApp = () => {
   }
 
   return (
-    <SafeAreaView style={dynamicStyles.container}>
+    <SafeAreaView style={estilosDinamicos.container}>
       <ScrollView>
-        <View style={dynamicStyles.header}>
+        <View style={estilosDinamicos.cabecalho}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <View>
-              <Text style={dynamicStyles.title}>Casa Inteligente</Text>
-              <Text style={dynamicStyles.subtitle}>Bem-vindo de volta!</Text>
+              <Text style={estilosDinamicos.titulo}>Casa Inteligente</Text>
+              <Text style={estilosDinamicos.subtitulo}>Bem-vindo de volta!</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Switch 
-                value={isDarkMode} 
-                onValueChange={toggleDarkMode}
-              />
+              <TouchableOpacity
+                style={[
+                  estilosDinamicos.botaoModo,
+                  !modoEscuro && estilosDinamicos.botaoModoAtivo
+                ]}
+                onPress={() => alternarModoEscuro(false)}>
+                <Text style={[
+                  estilosDinamicos.textoBotaoModo,
+                  { color: !modoEscuro ? 'white' : (modoEscuro ? '#fff' : '#000') }
+                ]}>☀️</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  estilosDinamicos.botaoModo,
+                  modoEscuro && estilosDinamicos.botaoModoAtivo
+                ]}
+                onPress={() => alternarModoEscuro(true)}>
+                <Text style={[
+                  estilosDinamicos.textoBotaoModo,
+                  { color: modoEscuro ? 'white' : (modoEscuro ? '#fff' : '#000') }
+                ]}>🌙</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
 
-        <View style={dynamicStyles.section}>
-          <Text style={dynamicStyles.sectionTitle}>Iluminação</Text>
-          <View style={dynamicStyles.deviceRow}>
-            <Text style={dynamicStyles.text}>Sala de Estar</Text>
+        <View style={estilosDinamicos.secao}>
+          <Text style={estilosDinamicos.tituloSecao}>Iluminação</Text>
+          <View style={estilosDinamicos.linhaDispositivo}>
+            <Text style={estilosDinamicos.texto}>Sala de Estar</Text>
             <Switch 
-              value={livingRoomLight} 
-              onValueChange={setLivingRoomLight} 
+              value={luzSala} 
+              onValueChange={setLuzSala} 
             />
           </View>
-          <View style={dynamicStyles.deviceRow}>
-            <Text style={dynamicStyles.text}>Cozinha</Text>
+          <View style={estilosDinamicos.linhaDispositivo}>
+            <Text style={estilosDinamicos.texto}>Cozinha</Text>
             <Switch 
-              value={kitchenLight} 
-              onValueChange={setKitchenLight} 
+              value={luzCozinha} 
+              onValueChange={setLuzCozinha} 
             />
           </View>
-          <View style={dynamicStyles.deviceRow}>
-            <Text style={dynamicStyles.text}>Quarto</Text>
+          <View style={estilosDinamicos.linhaDispositivo}>
+            <Text style={estilosDinamicos.texto}>Quarto</Text>
             <Switch 
-              value={bedroomLight} 
-              onValueChange={setBedroomLight} 
+              value={luzQuarto} 
+              onValueChange={setLuzQuarto} 
             />
           </View>
         </View>
 
-        <View style={dynamicStyles.section}>
-          <Text style={dynamicStyles.sectionTitle}>Climatização</Text>
-          <View style={dynamicStyles.deviceRow}>
-            <Text style={dynamicStyles.text}>Ar Condicionado</Text>
+        <View style={estilosDinamicos.secao}>
+          <Text style={estilosDinamicos.tituloSecao}>Climatização</Text>
+          <View style={estilosDinamicos.linhaDispositivo}>
+            <Text style={estilosDinamicos.texto}>Ar Condicionado</Text>
             <Switch 
-              value={acOn} 
-              onValueChange={setAcOn} 
+              value={arCondicionadoLigado} 
+              onValueChange={setArCondicionadoLigado} 
             />
           </View>
-          {acOn && (
+          {arCondicionadoLigado && (
             <View style={{ marginTop: 10, alignItems: 'center' }}>
-              <Text style={dynamicStyles.text}>Temperatura: {temperature}°C</Text>
+              <Text style={estilosDinamicos.texto}>Temperatura: {temperatura}°C</Text>
               <View style={{ flexDirection: 'row', marginTop: 8 }}>
                 <TouchableOpacity
-                  style={[dynamicStyles.scenarioButton, { width: 40, height: 40, borderRadius: 20, marginHorizontal: 10 }]}
-                  onPress={() => setTemperature(t => Math.min(30, t + 1))}>
-                  <Text style={dynamicStyles.text}>+</Text>
+                  style={[estilosDinamicos.botaoCenario, { width: 40, height: 40, borderRadius: 20, marginHorizontal: 10 }]}
+                  onPress={() => setTemperatura(t => Math.min(30, t + 1))}>
+                  <Text style={estilosDinamicos.texto}>+</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={[dynamicStyles.scenarioButton, { width: 40, height: 40, borderRadius: 20, marginHorizontal: 10 }]}
-                  onPress={() => setTemperature(t => Math.max(16, t - 1))}>
-                  <Text style={dynamicStyles.text}>-</Text>
+                  style={[estilosDinamicos.botaoCenario, { width: 40, height: 40, borderRadius: 20, marginHorizontal: 10 }]}
+                  onPress={() => setTemperatura(t => Math.max(16, t - 1))}>
+                  <Text style={estilosDinamicos.texto}>-</Text>
                 </TouchableOpacity>
               </View>
             </View>
           )}
         </View>
 
-        <View style={dynamicStyles.section}>
-          <Text style={dynamicStyles.sectionTitle}>Fechaduras</Text>
+        <View style={estilosDinamicos.secao}>
+          <Text style={estilosDinamicos.tituloSecao}>Fechaduras</Text>
           <TouchableOpacity
             style={[
               { padding: 16, borderRadius: 8, justifyContent: 'center', alignItems: 'center', marginBottom: 16 },
-              securityActive ? { backgroundColor: '#4CAF50' } : { backgroundColor: '#F44336' }
+              segurancaAtiva ? { backgroundColor: '#4CAF50' } : { backgroundColor: '#F44336' }
             ]}
-            onPress={toggleSecurity}>
+            onPress={alternarSeguranca}>
             <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>
-              {securityActive ? 'Trancadas' : 'Destrancadas'}
+              {segurancaAtiva ? 'Trancadas' : 'Destrancadas'}
             </Text>
             <Text style={{ color: 'white', fontSize: 12, opacity: 0.8 }}>
-              {securityActive ? 'Toque para destrancar' : 'Toque para trancar'}
+              {segurancaAtiva ? 'Toque para destrancar' : 'Toque para trancar'}
             </Text>
           </TouchableOpacity>
         </View>
 
-        <View style={dynamicStyles.section}>
-          <Text style={dynamicStyles.sectionTitle}>Cenários</Text>
+        <View style={estilosDinamicos.secao}>
+          <Text style={estilosDinamicos.tituloSecao}>Cenários</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-            {Object.keys(predefinedScenarios).map((key) => (
+            {Object.keys(cenariosPredefinidos).map((chave) => (
               <TouchableOpacity
-                key={key}
+                key={chave}
                 style={[
-                  dynamicStyles.scenarioButton,
-                  selectedScenario === key && dynamicStyles.scenarioButtonActive,
+                  estilosDinamicos.botaoCenario,
+                  cenarioSelecionado === chave && estilosDinamicos.botaoCenarioAtivo,
                 ]}
-                onPress={() => predefinedScenarios[key].actions()}>
-                <Text style={dynamicStyles.text}>{predefinedScenarios[key].name}</Text>
+                onPress={() => cenariosPredefinidos[chave].acoes()}>
+                <Text style={estilosDinamicos.texto}>{cenariosPredefinidos[chave].nome}</Text>
               </TouchableOpacity>
             ))}
           </View>
 
-          {Object.keys(customScenarios).length > 0 && (
+          {Object.keys(cenariosPersonalizados).length > 0 && (
             <View style={{ marginTop: 12 }}>
-              <Text style={dynamicStyles.subsectionTitle}>Seus Cenários</Text>
+              <Text style={estilosDinamicos.tituloSubsecao}>Seus Cenários</Text>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                {Object.keys(customScenarios).map((key) => (
-                  <View key={key} style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+                {Object.keys(cenariosPersonalizados).map((chave) => (
+                  <View key={chave} style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
                     <TouchableOpacity
                       style={[
-                        dynamicStyles.scenarioButton,
-                        selectedScenario === key && dynamicStyles.scenarioButtonActive,
+                        estilosDinamicos.botaoCenario,
+                        cenarioSelecionado === chave && estilosDinamicos.botaoCenarioAtivo,
                         { flex: 1 }
                       ]}
-                      onPress={() => customScenarios[key].actions()}>
-                      <Text style={dynamicStyles.text}>{customScenarios[key].name}</Text>
+                      onPress={() => cenariosPersonalizados[chave].acoes()}>
+                      <Text style={estilosDinamicos.texto}>{cenariosPersonalizados[chave].nome}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={{ padding: 8, marginLeft: 4 }}
-                      onPress={() => deleteCustomScenario(key)}>
+                      onPress={() => excluirCenarioPersonalizado(chave)}>
                       <Text style={{ fontSize: 20, color: '#F44336' }}>×</Text>
                     </TouchableOpacity>
                   </View>
@@ -373,8 +405,8 @@ const HomeAutomationApp = () => {
           )}
 
           <TouchableOpacity
-            style={dynamicStyles.addScenarioButton}
-            onPress={openNewScenarioModal}>
+            style={estilosDinamicos.botaoAdicionarCenario}
+            onPress={abrirModalNovoCenario}>
             <Text style={{ color: 'white', fontWeight: 'bold' }}>+ Criar Novo Cenário</Text>
           </TouchableOpacity>
         </View>
@@ -382,93 +414,93 @@ const HomeAutomationApp = () => {
         <Modal
           animationType="slide"
           transparent={false}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}>
-          <View style={[dynamicStyles.container, { padding: 20 }]}>
-            <Text style={[dynamicStyles.title, { textAlign: 'center', marginBottom: 20 }]}>Criar Novo Cenário</Text>
+          visible={modalVisivel}
+          onRequestClose={() => setModalVisivel(false)}>
+          <View style={[estilosDinamicos.container, { padding: 20 }]}>
+            <Text style={[estilosDinamicos.titulo, { textAlign: 'center', marginBottom: 20 }]}>Criar Novo Cenário</Text>
             
             <TextInput
-              style={dynamicStyles.input}
+              style={estilosDinamicos.entrada}
               placeholder="Nome do cenário"
-              placeholderTextColor={isDarkMode ? '#aaa' : '#888'}
-              value={newScenarioName}
-              onChangeText={setNewScenarioName}
+              placeholderTextColor={modoEscuro ? '#aaa' : '#888'}
+              value={nomeNovoCenario}
+              onChangeText={setNomeNovoCenario}
             />
             
-            <Text style={[dynamicStyles.sectionTitle, { marginBottom: 12 }]}>Configurações Atuais:</Text>
+            <Text style={[estilosDinamicos.tituloSecao, { marginBottom: 12 }]}>Configurações Atuais:</Text>
             
-            <View style={dynamicStyles.settingRow}>
-              <Text style={dynamicStyles.text}>Sala de Estar</Text>
+            <View style={estilosDinamicos.linhaConfiguracao}>
+              <Text style={estilosDinamicos.texto}>Sala de Estar</Text>
               <Switch 
-                value={newScenarioSettings.livingRoomLight} 
-                onValueChange={(value) => setNewScenarioSettings({...newScenarioSettings, livingRoomLight: value})}
+                value={configuracoesNovoCenario.luzSala} 
+                onValueChange={(value) => setConfiguracoesNovoCenario({...configuracoesNovoCenario, luzSala: value})}
               />
             </View>
             
-            <View style={dynamicStyles.settingRow}>
-              <Text style={dynamicStyles.text}>Cozinha</Text>
+            <View style={estilosDinamicos.linhaConfiguracao}>
+              <Text style={estilosDinamicos.texto}>Cozinha</Text>
               <Switch 
-                value={newScenarioSettings.kitchenLight} 
-                onValueChange={(value) => setNewScenarioSettings({...newScenarioSettings, kitchenLight: value})}
+                value={configuracoesNovoCenario.luzCozinha} 
+                onValueChange={(value) => setConfiguracoesNovoCenario({...configuracoesNovoCenario, luzCozinha: value})}
               />
             </View>
             
-            <View style={dynamicStyles.settingRow}>
-              <Text style={dynamicStyles.text}>Quarto</Text>
+            <View style={estilosDinamicos.linhaConfiguracao}>
+              <Text style={estilosDinamicos.texto}>Quarto</Text>
               <Switch 
-                value={newScenarioSettings.bedroomLight} 
-                onValueChange={(value) => setNewScenarioSettings({...newScenarioSettings, bedroomLight: value})}
+                value={configuracoesNovoCenario.luzQuarto} 
+                onValueChange={(value) => setConfiguracoesNovoCenario({...configuracoesNovoCenario, luzQuarto: value})}
               />
             </View>
             
-            <View style={dynamicStyles.settingRow}>
-              <Text style={dynamicStyles.text}>Ar Condicionado</Text>
+            <View style={estilosDinamicos.linhaConfiguracao}>
+              <Text style={estilosDinamicos.texto}>Ar Condicionado</Text>
               <Switch 
-                value={newScenarioSettings.acOn} 
-                onValueChange={(value) => setNewScenarioSettings({...newScenarioSettings, acOn: value})}
+                value={configuracoesNovoCenario.arCondicionadoLigado} 
+                onValueChange={(value) => setConfiguracoesNovoCenario({...configuracoesNovoCenario, arCondicionadoLigado: value})}
               />
             </View>
             
-            {newScenarioSettings.acOn && (
+            {configuracoesNovoCenario.arCondicionadoLigado && (
               <View style={{ marginVertical: 10, alignItems: 'center' }}>
-                <Text style={dynamicStyles.text}>Temperatura: {newScenarioSettings.temperature}°C</Text>
+                <Text style={estilosDinamicos.texto}>Temperatura: {configuracoesNovoCenario.temperatura}°C</Text>
                 <View style={{ flexDirection: 'row', marginTop: 8 }}>
                   <TouchableOpacity
-                    style={[dynamicStyles.scenarioButton, { width: 40, height: 40, borderRadius: 20, marginHorizontal: 10 }]}
-                    onPress={() => setNewScenarioSettings({
-                      ...newScenarioSettings,
-                      temperature: Math.min(30, newScenarioSettings.temperature + 1)
+                    style={[estilosDinamicos.botaoCenario, { width: 40, height: 40, borderRadius: 20, marginHorizontal: 10 }]}
+                    onPress={() => setConfiguracoesNovoCenario({
+                      ...configuracoesNovoCenario,
+                      temperatura: Math.min(30, configuracoesNovoCenario.temperatura + 1)
                     })}>
-                    <Text style={dynamicStyles.text}>+</Text>
+                    <Text style={estilosDinamicos.texto}>+</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={[dynamicStyles.scenarioButton, { width: 40, height: 40, borderRadius: 20, marginHorizontal: 10 }]}
-                    onPress={() => setNewScenarioSettings({
-                      ...newScenarioSettings,
-                      temperature: Math.max(16, newScenarioSettings.temperature - 1)
+                    style={[estilosDinamicos.botaoCenario, { width: 40, height: 40, borderRadius: 20, marginHorizontal: 10 }]}
+                    onPress={() => setConfiguracoesNovoCenario({
+                      ...configuracoesNovoCenario,
+                      temperatura: Math.max(16, configuracoesNovoCenario.temperatura - 1)
                     })}>
-                    <Text style={dynamicStyles.text}>-</Text>
+                    <Text style={estilosDinamicos.texto}>-</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             )}
             
-            <View style={dynamicStyles.settingRow}>
-              <Text style={dynamicStyles.text}>Sistema de Segurança</Text>
+            <View style={estilosDinamicos.linhaConfiguracao}>
+              <Text style={estilosDinamicos.texto}>Sistema de Segurança</Text>
               <Switch 
-                value={newScenarioSettings.securityActive} 
-                onValueChange={(value) => setNewScenarioSettings({...newScenarioSettings, securityActive: value})}
+                value={configuracoesNovoCenario.segurancaAtiva} 
+                onValueChange={(value) => setConfiguracoesNovoCenario({...configuracoesNovoCenario, segurancaAtiva: value})}
               />
             </View>
             
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 20 }}>
               <Button 
                 title="Cancelar" 
-                onPress={() => setModalVisible(false)} 
+                onPress={() => setModalVisivel(false)} 
               />
               <Button 
                 title="Salvar" 
-                onPress={saveCustomScenario} 
+                onPress={salvarCenarioPersonalizado} 
                 color="#2196F3"
               />
             </View>
@@ -479,4 +511,4 @@ const HomeAutomationApp = () => {
   );
 };
 
-export default HomeAutomationApp;
+export default AppCasaInteligente;
