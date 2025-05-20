@@ -18,7 +18,7 @@ import {
 
 const AppCasaInteligente = () => {
   const esquemaDeCores = useColorScheme();
-  const [modoEscuro, setModoEscuro] = useState(esquemaDeCores === 'light');
+  const [modoEscuro, setModoEscuro] = useState(esquemaDeCores === 'false');
   const [telaSplashVisivel, setTelaSplashVisivel] = useState(true);
   const [luzSala, setLuzSala] = useState(false);
   const [luzCozinha, setLuzCozinha] = useState(false);
