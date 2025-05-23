@@ -12,6 +12,14 @@ Software de automatização residencial para suprir a disciplina de Programaçã
         </sub>
       </a>
     </td>
+      <td align="center">
+      <a href="#" title="Foto de Sarah">
+        <img src="https://avatars.githubusercontent.com/u/185303323?v=4" width="100px;" alt="Foto de Sarah"/><br>
+        <sub>
+          <b>Sarah Kamínski</b>
+        </sub>
+      </a>
+      </td>
     <td align="center">
       <a href="#" title="Foto de Aldemir Anderson">
         <img src="https://avatars.githubusercontent.com/u/111025057?v=4" width="100px;" alt="Foto de Aldemir Anderson"/><br>
