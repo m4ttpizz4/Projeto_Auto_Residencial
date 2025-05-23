@@ -50,3 +50,4 @@ Software de automatização residencial para suprir a disciplina de Programaçã
 
 ### ⚛ Projeto desenvolvido com:
 ![React Native](https://img.shields.io/badge/React_Native-20232A?style=plasctic&logo=react&logoColor=61DAFB)
+![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=plastic&logo=c%2B%2B&logoColor=white)
