@@ -14,16 +14,15 @@ import {
   useColorScheme,
   StatusBar,
   SafeAreaView,
-  Alert, // Importe o Alert para mensagens de erro/sucesso
+  Alert
 } from 'react-native';
 
-// Importe a instância do Realtime Database que você configurou
 import { db } from './firebaseConfig';
-import { ref, set, onValue, remove } from 'firebase/database'; // Importe as funções necessárias para o Realtime Database
+import { ref, set, onValue, remove } from 'firebase/database';
 
 const AppCasaInteligente = () => {
   const esquemaDeCores = useColorScheme();
-  const [modoEscuro, setModoEscuro] = useState(esquemaDeCores === 'dark'); // Corrigido para 'dark' para o esquema de cores
+  const [modoEscuro, setModoEscuro] = useState(esquemaDeCores === 'dark');
   const [telaSplashVisivel, setTelaSplashVisivel] = useState(true);
   const [luzSala, setLuzSala] = useState(false);
   const [luzCozinha, setLuzCozinha] = useState(false);
