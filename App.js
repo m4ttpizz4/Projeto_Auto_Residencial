@@ -43,20 +43,14 @@ const AppCasaInteligente = () => {
     segurancaAtiva: false,
   });
 
-  // --- FUNÇÕES DE INTERAÇÃO COM O FIREBASE ---
-
-  // Função para escrever o estado atual da casa no Firebase
   const escreverEstadoCasa = async (estado) => {
     try {
       await set(ref(db, 'estadoCasa'), estado);
-      console.log('Estado da casa salvo no Firebase com sucesso!');
     } catch (error) {
-      console.error('Erro ao salvar estado da casa no Firebase:', error);
       Alert.alert('Erro', 'Não foi possível salvar o estado da casa no Firebase.');
     }
   };
 
-  // Função para ler o estado da casa do Firebase e atualizar o estado local
   useEffect(() => {
     const estadoCasaRef = ref(db, 'estadoCasa');
     const unsubscribe = onValue(estadoCasaRef, (snapshot) => {
@@ -68,10 +62,7 @@ const AppCasaInteligente = () => {
         setArCondicionadoLigado(data.arCondicionadoLigado);
         setTemperatura(data.temperatura);
         setSegurancaAtiva(data.segurancaAtiva);
-        console.log('Estado da casa lido do Firebase:', data);
       } else {
-        console.log('Nenhum estado da casa encontrado no Firebase. Usando estado padrão.');
-        // Se não houver dados, salva o estado inicial no Firebase
         escreverEstadoCasa({
           luzSala: false,
           luzCozinha: false,
@@ -82,60 +73,45 @@ const AppCasaInteligente = () => {
         });
       }
     }, (error) => {
-      console.error("Erro ao ler estado da casa do Firebase:", error);
       Alert.alert('Erro de Leitura', 'Não foi possível ler o estado da casa do Firebase.');
     });
 
-    // Limpar o listener quando o componente for desmontado
     return () => unsubscribe();
-  }, []); // Executa apenas uma vez ao montar o componente
+  }, []);
 
-  // Função para salvar cenários personalizados no Firebase
   const salvarCenarioPersonalizadoNoFirebase = async (chave, cenario) => {
     try {
       await set(ref(db, `cenariosPersonalizados/${chave}`), cenario);
-      console.log(`Cenário '${cenario.nome}' salvo no Firebase com sucesso!`);
       Alert.alert('Sucesso', `Cenário '${cenario.nome}' salvo!`);
     } catch (error) {
-      console.error('Erro ao salvar cenário personalizado no Firebase:', error);
       Alert.alert('Erro', 'Não foi possível salvar o cenário personalizado.');
     }
   };
 
-  // Função para excluir cenários personalizados do Firebase
   const excluirCenarioPersonalizadoDoFirebase = async (chave) => {
     try {
       await remove(ref(db, `cenariosPersonalizados/${chave}`));
-      console.log(`Cenário '${chave}' removido do Firebase com sucesso!`);
       Alert.alert('Sucesso', 'Cenário excluído!');
     } catch (error) {
-      console.error('Erro ao excluir cenário personalizado do Firebase:', error);
       Alert.alert('Erro', 'Não foi possível excluir o cenário personalizado.');
     }
   };
 
-  // Função para ler cenários personalizados do Firebase
   useEffect(() => {
     const cenariosRef = ref(db, 'cenariosPersonalizados');
     const unsubscribe = onValue(cenariosRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         setCenariosPersonalizados(data);
-        console.log('Cenários personalizados lidos do Firebase:', data);
       } else {
-        setCenariosPersonalizados({}); // Limpa se não houver cenários
-        console.log('Nenhum cenário personalizado encontrado no Firebase.');
+        setCenariosPersonalizados({});
       }
     }, (error) => {
-      console.error("Erro ao ler cenários personalizados do Firebase:", error);
       Alert.alert('Erro de Leitura', 'Não foi possível ler os cenários personalizados do Firebase.');
     });
 
     return () => unsubscribe();
   }, []);
-
-
-  // --- RESTO DO SEU CÓDIGO (COM PEQUENAS ALTERAÇÕES PARA USAR O FIREBASE) ---
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -144,9 +120,8 @@ const AppCasaInteligente = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Use um useEffect para observar as mudanças nos estados e escrevê-las no Firebase
   useEffect(() => {
-    if (!telaSplashVisivel) { // Não tenta escrever antes da splash screen
+    if (!telaSplashVisivel) {
       const estadoAtual = {
         luzSala,
         luzCozinha,
@@ -158,7 +133,6 @@ const AppCasaInteligente = () => {
       escreverEstadoCasa(estadoAtual);
     }
   }, [luzSala, luzCozinha, luzQuarto, arCondicionadoLigado, temperatura, segurancaAtiva, telaSplashVisivel]);
-
 
   const alternarModoEscuro = (modo) => {
     setModoEscuro(modo);
@@ -173,10 +147,9 @@ const AppCasaInteligente = () => {
           luzCozinha: true,
           luzQuarto: false,
           arCondicionadoLigado: false,
-          temperatura: 22, // Mantém a temperatura padrão ou define uma
+          temperatura: 22,
           segurancaAtiva: false,
         };
-        // Atualiza o estado local e dispara a escrita no Firebase via useEffect
         setLuzSala(novoEstado.luzSala);
         setLuzCozinha(novoEstado.luzCozinha);
         setLuzQuarto(novoEstado.luzQuarto);
@@ -197,7 +170,6 @@ const AppCasaInteligente = () => {
           temperatura: 24,
           segurancaAtiva: true,
         };
-        // Atualiza o estado local e dispara a escrita no Firebase via useEffect
         setLuzSala(novoEstado.luzSala);
         setLuzCozinha(novoEstado.luzCozinha);
         setLuzQuarto(novoEstado.luzQuarto);
@@ -215,10 +187,9 @@ const AppCasaInteligente = () => {
           luzCozinha: false,
           luzQuarto: false,
           arCondicionadoLigado: false,
-          temperatura: 22, // Mantém a temperatura padrão ou define uma
+          temperatura: 22,
           segurancaAtiva: true,
         };
-        // Atualiza o estado local e dispara a escrita no Firebase via useEffect
         setLuzSala(novoEstado.luzSala);
         setLuzCozinha(novoEstado.luzCozinha);
         setLuzQuarto(novoEstado.luzQuarto);
@@ -231,7 +202,6 @@ const AppCasaInteligente = () => {
   };
 
   const alternarSeguranca = () => {
-    // A função setSegurancaAtiva já dispara o useEffect que salva no Firebase
     setSegurancaAtiva(!segurancaAtiva);
   };
 
@@ -254,15 +224,13 @@ const AppCasaInteligente = () => {
     }
 
     const chaveCenario = `personalizado_${Date.now()}`;
-    const novoCenarioData = { // Dados para salvar no Firebase
+    const novoCenarioData = {
       nome: nomeNovoCenario,
       configuracoes: configuracoesNovoCenario,
     };
 
-    // Salva no Firebase
     salvarCenarioPersonalizadoNoFirebase(chaveCenario, novoCenarioData);
 
-    // Adiciona ao estado local (se o useEffect de leitura ainda não tiver atualizado)
     setCenariosPersonalizados((prev) => ({
       ...prev,
       [chaveCenario]: {
@@ -275,7 +243,6 @@ const AppCasaInteligente = () => {
           setTemperatura(configuracoesNovoCenario.temperatura);
           setSegurancaAtiva(configuracoesNovoCenario.segurancaAtiva);
           setCenarioSelecionado(chaveCenario);
-          // O useEffect de escrita já vai lidar com a atualização do estado da casa no Firebase
         },
       },
     }));
@@ -285,10 +252,7 @@ const AppCasaInteligente = () => {
   };
 
   const excluirCenarioPersonalizado = (chave) => {
-    // Exclui do Firebase
     excluirCenarioPersonalizadoDoFirebase(chave);
-
-    // Remove do estado local (o useEffect de leitura também fará isso, mas para resposta imediata)
     const novosCenarios = { ...cenariosPersonalizados };
     delete novosCenarios[chave];
     setCenariosPersonalizados(novosCenarios);
@@ -296,7 +260,6 @@ const AppCasaInteligente = () => {
       setCenarioSelecionado(null);
     }
   };
-
 
   const estilosDinamicos = StyleSheet.create({
     container: {
@@ -621,7 +584,6 @@ const AppCasaInteligente = () => {
                         { flex: 1 },
                       ]}
                       onPress={() => {
-                        // Aplica as configurações do cenário personalizado do Firebase
                         const config = cenariosPersonalizados[chave].configuracoes;
                         setLuzSala(config.luzSala);
                         setLuzCozinha(config.luzCozinha);
@@ -630,7 +592,6 @@ const AppCasaInteligente = () => {
                         setTemperatura(config.temperatura);
                         setSegurancaAtiva(config.segurancaAtiva);
                         setCenarioSelecionado(chave);
-                        // O useEffect de escrita já vai lidar com a atualização do estado da casa no Firebase
                       }}>
                       <Text style={estilosDinamicos.texto}>
                         {cenariosPersonalizados[chave].nome}
